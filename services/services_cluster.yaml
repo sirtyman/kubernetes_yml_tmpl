@@ -1,0 +1,14 @@
+# Enable the frontend pods to access a backend set of Pods. 
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-processing
+  labels:
+    app: myapp
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080  # target app listens on 8080
+  selector:
+    tier: backend

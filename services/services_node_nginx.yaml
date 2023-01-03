@@ -1,0 +1,33 @@
+#                                          +---[Node X]-----------------+
+#                                          |                            |
+# Client { IP: 192.168.0.2/24:30004} ----- | {IP: 192.168.0.10/24}      | 
+#                                          |                            |
+#                                          |   +--[Service]-------+     |
+#                                          |   | Listens on 30004 |     |
+#                                          |   |                  |     |
+#                                          |   |                  |     |
+#                                          |   |           80     |     |
+#                                          |   +------------------+     |
+#                                          |                |           |
+#                                          |   +--[Pod]-----------+     |
+#                                          |   | Listens on 80    |     |
+#                                          |   |                  |     |
+#                                          |   |    App           |     |
+#                                          |   |                  |     |
+#                                          |   +------------------+     |
+#                                          +----------------------------+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  labels:
+    app: myapp
+spec:
+  type: NodePort  # this is Node Service
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30004
+  selector:
+    app: myapp  # this matches Pods label
+  
